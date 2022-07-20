@@ -1,0 +1,5 @@
+numpy
+pillow
+pytest
+pytest-cov
+pytest-mock
