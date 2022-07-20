@@ -34,17 +34,41 @@ class Agent:
         # calculate the metric summarising surrounding
         total = east + west + north + south
         print("total : " , total)
+        if total >= 0: # can move on a transversal and increment path
+            if total > (Agent.EXIT_POINT + 1): # priority for exit point
+                self._move_to_exit_point(east, west, north, south)
+            elif total ==  Agent.STRAIGTH_TUNNEL : # move forward horizontally or vertically
+                self._move_forward(east, west, north, south)
+            elif total == Agent.JUNCTION: # move in junction turn right
+                self._move_right(east, west, north, south)
+            # add cell to path
+            self._add_to_path()
+        elif total < 0 : # has reached a dead-end and need correcting path
+            self._correct_path(east, west, north, south)
 
-        if total > (Agent.EXIT_POINT + 1): # priority for exit point
-            self._move_to_exit_point(east, west, north, south)
-        elif total ==  Agent.STRAIGTH_TUNNEL : # move forward horizontally or vertically
-            self._move_forward(east, west, north, south)
-        elif total == Agent.JUNCTION:
-            self._move_right(east, west, north, south)
-        self._add_to_path()
+    @property
+    def drop_stone(self) -> int:
+        return Agent.STONE
 
-    def _add_to_path(self):
+    def _pop_from_path(self):
+        self.path = self.path[:-1]
+
+    def _add_to_path(self) -> None:
         self.path.append((self.x, self.y))
+
+    def _correct_path(self, east: int, west: int, north: int, south: int) -> None:
+        environment =  [east, west, north, south]
+        if Agent.TRANSVERSALE in environment: # can move forward to a possible unvisited transversal
+            self._move_forward(east, west, north, south)
+            self._add_to_path()
+        else : # retrace and correct path
+            self.x = self.path[len(self.path)-1][0]
+            self.y = self.path[len(self.path)-1][1]
+
+            # remove coordinates from path
+            self._pop_from_path()
+
+
 
     def _move_forward(self, east: int, west : int, north:int , south : int) -> None:
         if east == Agent.TRANSVERSALE: # move east
@@ -65,8 +89,6 @@ class Agent:
             self.y -= 1
         elif south == Agent.WALL: # move north
             self.y += 1
-
-
 
     def _move_to_exit_point(self, east: int, west: int, north: int, south: int) -> None:
         if east == Agent.EXIT_POINT:

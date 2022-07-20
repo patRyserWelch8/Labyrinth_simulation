@@ -58,9 +58,7 @@ class Solver:
             #print(agent.y)
             #print(agent.found_exit_point(3))
             #print(agent.path)
-
-
-        agent = Agent(5, 5, 0, 0, len(self.labyrinth[0]) - 1, len(self.labyrinth) - 1)
+        agent: Agent = Agent(5, 5, 0, 0, len(self.labyrinth[0]) - 1, len(self.labyrinth) - 1)
         print(agent.path)
         agent.move(1, -1, 0, 0) # move east
         print(agent.path)
@@ -86,6 +84,18 @@ class Solver:
         print(agent.path)
         agent.move(0, 1, 1, -1)  # west
         print(agent.path)
+        agent.move(0,-1,0, 0)
+        print(agent.path)
+        print(agent.x)
+        print(agent.y)
+        agent.move(-1, -1, 0, 0)
+        print(agent.path)
+        print(agent.x)
+        print(agent.y)
+        agent.move(-1, -1, 0, 1)
+        print(agent.path)
+        print(agent.x)
+        print(agent.y)
 
         return False
 
