@@ -39,7 +39,8 @@ class Agent:
             self._move_to_exit_point(east, west, north, south)
         elif total ==  Agent.STRAIGTH_TUNNEL : # move forward horizontally or vertically
             self._move_forward(east, west, north, south)
-
+        elif total == Agent.JUNCTION:
+            self._move_right(east, west, north, south)
         self._add_to_path()
 
     def _add_to_path(self):
@@ -55,6 +56,15 @@ class Agent:
         elif south == Agent.TRANSVERSALE:
             self.y += 1
 
+    def _move_right(self, east: int, west : int, north:int , south : int) -> None:
+        if east == Agent.WALL: # move west
+            self.x -= 1
+        elif west == Agent.WALL: # move east
+            self.x += 1
+        elif north == Agent.WALL: # move south
+            self.y -= 1
+        elif south == Agent.WALL: # move north
+            self.y += 1
 
 
 
