@@ -10,13 +10,9 @@ class Agent:
     STRAIGTH_TUNNEL : int = 0
     JUNCTION: int = 1
 
-    def __init__(self, x: int, y: int, left: int, top: int, right: int, bottom: int) -> None:
+    def __init__(self, x: int, y: int) -> None:
         self.x : int = x
         self.y : int = y
-        self.min_x : int = left
-        self.mix_y : int  = top
-        self.max_x : int  = right
-        self.max_y : int = bottom
         self.path : int = [(x,y)]
 
     def found_exit_point(self, current_value: int) -> bool:
@@ -47,8 +43,23 @@ class Agent:
             self._correct_path(east, west, north, south)
 
     @property
-    def drop_stone(self) -> int:
+    def get_stone(self) -> int:
         return Agent.STONE
+
+    def adjust(self, boundaries: object) -> None:
+        last_cell = self.path[len(self.path)-1]
+        print(last_cell[0] < boundaries[0])
+        if last_cell[0] < boundaries[0]: # x has left boundaries on the left
+            self.x = boundaries[0]
+        elif last_cell[0] >= boundaries[1]: # x has left boundaries on the right
+            self.x = boundaries[1]-1
+
+        if last_cell[1] < boundaries[2]:  # y has left boundaries on the north
+            self.y = boundaries[2]
+        elif last_cell[1] >= boundaries[3]:  # x has left boundaries on the right
+            self.y = boundaries[3]-1
+
+        self.path[len(self.path)-1] = (self.x, self.y)
 
     def _pop_from_path(self):
         self.path = self.path[:-1]
@@ -67,8 +78,6 @@ class Agent:
 
             # remove coordinates from path
             self._pop_from_path()
-
-
 
     def _move_forward(self, east: int, west : int, north:int , south : int) -> None:
         if east == Agent.TRANSVERSALE: # move east
