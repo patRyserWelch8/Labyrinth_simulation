@@ -47,42 +47,15 @@ class Agent:
 
     def _move_forward(self, east: int, west : int, north:int , south : int) -> None:
         if east == Agent.TRANSVERSALE: # move east
-            print("A")
             self.x += 1
         elif west == Agent.TRANSVERSALE: # move west
-            print("B")
             self.x -= 1
         elif north == Agent.TRANSVERSALE:
-            print("B")
             self.x -= 1
         elif south == Agent.TRANSVERSALE:
-            print("E")
             self.y += 1
 
-        #if south == Agent.WALL and north == Agent.WALL and east == Agent.TRANSVERSALE: # move east
-        #    print("A")
-        #    self.x += 1
-        #if west == Agent.WALL and north == Agent.WALL and east == Agent.TRANSVERSALE:  # move east
-        #    print("g")
-        #    self.x += 1
-        #elif south == Agent.WALL and north == Agent.WALL and west == Agent.TRANSVERSALE: # move west
-        #    print("B")
-        #    self.x -= 1
-        #elif east == Agent.WALL and south == Agent.Wall and west == Agent.TRANSVERSALE:  # move west
-        #    print("F")
-        #    self.x -= 1
-        #elif east == Agent.WALL and west == Agent.WALL and north == Agent.TRANSVERSALE: # move north
-        #    print("C")
-        #    self.y -= 1
-        #elif east == Agent.WALL and west == Agent.WALL and north == Agent.TRANSVERSALE: # move north
-        #    print("C")
-        #    self.y -= 1
-        #elif east == Agent.WALL and west == Agent.WALL and south == Agent.TRANSVERSALE: # move south
-        #    print("D")
-        #    self.y += 1
-        #elif east == Agent.WALL and north == Agent.Wall and south == Agent.TRANSVERSALE: # move south
-        #    print("E")
-        #    self.y += 1
+
 
 
     def _move_to_exit_point(self, east: int, west: int, north: int, south: int) -> None:
