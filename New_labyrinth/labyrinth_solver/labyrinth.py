@@ -10,7 +10,6 @@ class Labyrinth:
         self.exit_points = someExitPoints
         self._boundaries = [0, len(self.labyrinth[0]), 0, len(self.labyrinth)]
         self.set_cell_values(self.entry_points[1], self.exit_points[0], 2)
-        print(self.labyrinth)
 
     @property
     def get_boundaries(self):
