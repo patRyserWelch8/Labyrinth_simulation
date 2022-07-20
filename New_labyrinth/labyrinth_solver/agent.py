@@ -10,7 +10,7 @@ class Agent:
     STRAIGTH_TUNNEL : int = 0
     JUNCTION: int = 1
 
-    def __init__(self, x: int , y : int, left : int , top : int, right : int, bottom: int) -> None:
+    def __init__(self, x: int, y: int, left: int, top: int, right: int, bottom: int) -> None:
         self.x : int = x
         self.y : int = y
         self.min_x : int = left
