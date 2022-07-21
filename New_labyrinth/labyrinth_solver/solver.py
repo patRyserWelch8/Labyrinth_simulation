@@ -48,6 +48,7 @@ class Solver:
             labyrinth = Labyrinth(copy.deepcopy(self.labyrinth_copy), self.entry_points[i], self.exit_points[i])
             # add entry point
             labyrinth.set_cell_values(self.entry_points[i][0], self.entry_points[i][1], Labyrinth.STARTING_POINT)
+            print(labyrinth.labyrinth)
             # solve and retried a solution
             solution = self._find_path(labyrinth)
             self.solution[i] = solution[1]
