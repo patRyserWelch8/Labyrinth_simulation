@@ -1,3 +1,5 @@
+import copy
+
 import numpy as np
 
 
@@ -6,10 +8,12 @@ class Agent:
     TRANSVERSALE : int = 1
     STONE: int = -1
 
-    def __init__(self, x: int, y: int) -> None:
+    def __init__(self, x: int, y: int, boundaries: [int, int, int, int]) -> None:
         self.x : int = x
         self.y : int = y
-        self.path : int = [(x,y)]
+        self.path : int = [(self.x,self.y)]
+        self.entry : int = [(self.x,self.y)]
+        self.boundaries : [int, int, int, int] = boundaries
 
     def move(self, east: int, west: int, north: int, south: int) -> None:
         """
@@ -34,20 +38,19 @@ class Agent:
     def get_stone(self) -> int:
         return Agent.STONE
 
-    def adjust(self, boundaries: object) -> None:
-        last_cell = self.path[len(self.path)-1]
-        print(last_cell[0] < boundaries[0])
-        if last_cell[0] < boundaries[0]: # x has left boundaries on the left
-            self.x = boundaries[0]
-        elif last_cell[0] >= boundaries[1]: # x has left boundaries on the right
-            self.x = boundaries[1]-1
-
-        if last_cell[1] < boundaries[2]:  # y has left boundaries on the north
-            self.y = boundaries[2]
-        elif last_cell[1] >= boundaries[3]:  # x has left boundaries on the right
-            self.y = boundaries[3]-1
-
-        self.path[len(self.path)-1] = (self.x, self.y)
+    def _adjust(self) -> None:
+        if self.x < self.boundaries[0]: # x has left boundaries on the left
+            self.x = self.boundaries[0]
+        elif self.x >= self.boundaries[1]: # x has left boundaries on the right
+            self.x = self.boundaries[1]-1
+        if self.y < self.boundaries[2]:  # y has left boundaries on the north
+            self.y = self.boundaries[2]
+        elif self.y >= self.boundaries[3]:  # x has left boundaries on the right
+            self.y = self.boundaries[3]-1
+        if len(self.path) >= 1:
+            self.path[len(self.path)-1] = (self.x, self.y)
+        else:
+            self.path = [(self.x, self.y)]
 
     def _pop_from_path(self):
         self.path = self.path[:-1]
@@ -60,11 +63,15 @@ class Agent:
         if Agent.TRANSVERSALE in environment: # can move forward to a possible unvisited transversal
             self._move_forward(east, west, north, south)
             self._add_to_path()
-        else : # retrace and correct path
+        else :
+            if len(self.path) < 1:
+               self.path = copy.deepcopy(self.entry)
+            # retrace and correct path
             self.x = self.path[len(self.path)-1][0]
             self.y = self.path[len(self.path)-1][1]
             # remove coordinates from path
             self._pop_from_path()
+
 
     def _move_forward(self, east: int, west : int, north:int , south : int) -> None:
         if east >= Agent.TRANSVERSALE: # move east
@@ -75,6 +82,6 @@ class Agent:
             self.x -= 1
         elif north >= Agent.TRANSVERSALE:
             self.y -= 1
-
+        self._adjust()
 
 

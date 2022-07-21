@@ -10,18 +10,19 @@ class Solver:
     NORTH = 2
     SOUTH = 3
 
-    def __init__(self, labyrinth) -> None:
-        self.labyrinth = labyrinth
+    def __init__(self, alabyrinth) -> None:
+        self.labyrinth = alabyrinth
         self.labyrinth_copy = []
         self.solution = [[], []]
+
 
         # You may edit the following variables to help you solve the maze.
 
         # Entry points are values where the labyrinth is 2
-        self.entry_points = [(x, y) for y, x in np.array(np.where(labyrinth == 2)).transpose()]
+        self.entry_points = [(x, y) for y, x in np.array(np.where(self.labyrinth == 2)).transpose()]
 
         # Exit points are values where the labyrinth is 3
-        self.exit_points = [(x, y) for y, x in np.array(np.where(labyrinth == 3)).transpose()]
+        self.exit_points = [(x, y) for y, x in np.array(np.where(self.labyrinth == 3)).transpose()]
 
 
 
@@ -51,6 +52,10 @@ class Solver:
             solution = self._find_path(labyrinth)
             self.solution[i] = solution[1]
             solution_exists = solution_exists & solution[0]
+            print("----")
+            self.entry_points[i]
+            print(labyrinth.labyrinth)
+            print("----")
 
         return solution_exists
 
@@ -62,7 +67,7 @@ class Solver:
 
     def _find_path(self, labyrinth: Labyrinth) -> [bool,[]]:
 
-        agent = Agent(labyrinth.entry_points[0], labyrinth.entry_points[1])
+        agent = Agent(labyrinth.entry_points[0], labyrinth.entry_points[1], labyrinth.get_boundaries)
 
         while not labyrinth.found_exit_point(agent.x, agent.y):
             # Drop stone in current location in the labyrinth
@@ -74,4 +79,3 @@ class Solver:
 
         return [labyrinth.found_exit_point(agent.x, agent.y), agent.path]
 
-    
