@@ -44,11 +44,11 @@ class Solver:
         """
         solution_exists = True
         # create labyrinth for a entry point
-        saved_labyrinth = copy.deepcopy(self.labyrinth_copy)
+
 
         for i in range(0, len(self.entry_points)):
             # create labyrinth for a entry point
-            labyrinth = Labyrinth(saved_labyrinth, self.entry_points[i], self.exit_points[i])
+            labyrinth = Labyrinth(copy.deepcopy(self.labyrinth_copy), self.entry_points[i], self.exit_points[i])
             # add entry point
             labyrinth.set_cell_values(self.entry_points[i][0], self.entry_points[i][1], Labyrinth.STARTING_POINT)
             print(" --- prior: ---")
@@ -57,8 +57,7 @@ class Solver:
             solution = self._find_path(labyrinth)
             self.solution[i] = solution[1]
             solution_exists = solution_exists & solution[0]
-            saved_labyrinth = copy.deepcopy(labyrinth.labyrinth)
-            #
+        
             print("---after ----")
             self.entry_points[i]
             print(labyrinth.labyrinth)
