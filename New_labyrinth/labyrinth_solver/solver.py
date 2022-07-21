@@ -23,10 +23,10 @@ class Solver:
         self.exit_points = [(x, y) for y, x in np.array(np.where(labyrinth == 3)).transpose()]
 
         # Walls are values where the labyrinth is 0
-        self.walls = [(x, y) for y, x in np.array(np.where(labyrinth == 0)).transpose()]
+        #self.walls = [(x, y) for y, x in np.array(np.where(labyrinth == 0)).transpose()]
 
         # Traversable points are values where the labyrinth is 1
-        self.traversable = [(x, y) for y, x in np.array(np.where(labyrinth == 1)).transpose()]
+        #self.traversable = [(x, y) for y, x in np.array(np.where(labyrinth == 1)).transpose()]
 
         self.solution = [[], []]
 
@@ -34,12 +34,7 @@ class Solver:
         """
         Parses the labyrinth into data structures which may help in solving the maze.
         """
-        print("entry points:", self.entry_points)
-        print("exit points:", self.exit_points)
-        print("walls:", self.walls)
-        print("transversable:", self.traversable)
-        print(self.labyrinth)
-
+        self.labyrinth_copy = self._clean()
         pass
 
     @property
@@ -51,13 +46,20 @@ class Solver:
         and no path intersects with a wall.
         A path is an ordered list of adjacent traversable points.
         """
-        self.labyrinth_copy = self._clean()
+        solution_exists = []
         for i in range(0, len(self.entry_points)):
-            # for i in range(0,1):
+            solution_exists.append(False)
+            # create labyrinth for a entry point
             labyrinth = Labyrinth(copy.deepcopy(self.labyrinth_copy), self.entry_points[i], self.exit_points[i])
+            # add entry point
             labyrinth.set_cell_values(self.entry_points[i][0], self.entry_points[i][1], Labyrinth.STARTING_POINT)
-            print(labyrinth.labyrinth)
-            self._find_path(labyrinth)
+            # solve and retried a solution
+            solution = self._find_path(labyrinth)
+            solution_exists[i] = solution[0]
+            self.solution[i] = solution[1]
+
+
+
 
         return False
 
@@ -67,10 +69,10 @@ class Solver:
             labyrinth_copy[entry_points[1]][entry_points[0]] = -2
         return labyrinth_copy
 
-    def _find_path(self, labyrinth: Labyrinth) -> object:
+    def _find_path(self, labyrinth: Labyrinth) -> [bool,[]]:
 
         agent = Agent(labyrinth.entry_points[0], labyrinth.entry_points[1])
-       
+
         while not labyrinth.found_exit_point(agent.x, agent.y):
             # Drop stone in current location in the labyrinth
             labyrinth.set_cell_values(agent.x, agent.y, Agent.STONE)
@@ -79,3 +81,4 @@ class Solver:
             # move
             agent.move(values[Solver.EAST], values[Solver.WEST], values[Solver.NORTH], values[Solver.SOUTH])
 
+        return [labyrinth.found_exit_point(agent.x, agent.y), agent.path]
