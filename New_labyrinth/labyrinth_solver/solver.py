@@ -40,7 +40,7 @@ class Solver:
         print("transversable:", self.traversable)
         print(self.labyrinth)
 
-        self.labyrinth_copy = self._clean()
+        pass
 
     @property
     def solve(self) -> bool:

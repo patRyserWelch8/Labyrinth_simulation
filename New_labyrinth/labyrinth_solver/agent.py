@@ -29,21 +29,12 @@ class Agent:
 
         # calculate the metric summarising surrounding
         total = east + west + north + south
-        print("total : " , total)
+
+        # decide and move
         if total >= 0: # can move on a transversal and increment path
-            if total > (Agent.EXIT_POINT + 1): # priority for exit point
-                print("EXIT")
-                self._move_to_exit_point(east, west, north, south)
-            elif total >=  0: # move forward horizontally or vertically
-                print("STRAIGHT")
-                self._move_forward(east, west, north, south)
-            #elif total == Agent.JUNCTION: # move in junction turn right
-            #    print("JUNCTION")
-            #    self._move_right(east, west, north, south)
-            #add cell to path
+            self._move_forward(east, west, north, south)
             self._add_to_path()
         elif total < 0 : # has reached a dead-end and need correcting path
-            print("CORRECTION")
             self._correct_path(east, west, north, south)
 
     @property
@@ -93,27 +84,5 @@ class Agent:
         elif north >= Agent.TRANSVERSALE:
             self.y -= 1
 
-   # Rubbish
-    def _move_right(self, east: int, west : int, north:int , south : int) -> None: #may be redundant
-        if east == Agent.WALL: # move west
-            #self.x -= 1
-            self._move_forward(east, west, north, south)
-        elif west == Agent.WALL: # move east
-            #self.x += 1
-            self._move_forward(east, west, north, south)
-        elif north == Agent.WALL: # move south
-            #self.y += 1
-            self._move_forward(east, west, north, south)
-        elif south == Agent.WALL: # move west (was north)
-            #self.y -= 1
-            self._move_forward(east, west, north, south)
 
-    def _move_to_exit_point(self, east: int, west: int, north: int, south: int) -> None:
-        if east == Agent.EXIT_POINT:
-            self.x += 1
-        elif west == Agent.EXIT_POINT:
-            self.x -= 1
-        elif north == Agent.EXIT_POINT:
-            self.y -= 1
-        elif south == Agent.EXIT_POINT:
-            self.y += 1
+  

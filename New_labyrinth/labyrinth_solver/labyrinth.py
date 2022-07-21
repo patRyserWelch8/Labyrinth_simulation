@@ -15,7 +15,6 @@ class Labyrinth:
     def get_boundaries(self):
         return self._boundaries
 
-
     def get_compass_values(self, x: int, y: int) -> [int, int, int, int]:
         """
         :param x:
@@ -56,3 +55,4 @@ class Labyrinth:
         if self._boundaries[0] <= x < self._boundaries[1]:
             if self._boundaries[2] <= y < self._boundaries[3]:
                 self.labyrinth[y][x] = value
+
