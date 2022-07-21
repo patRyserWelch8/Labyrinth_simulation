@@ -2,21 +2,14 @@ import numpy as np
 
 
 class Agent:
-    STARTING_POINT: int = 2
-    EXIT_POINT: int = 3
     WALL : int = 0
     TRANSVERSALE : int = 1
     STONE: int = -1
-    STRAIGTH_TUNNEL : int = 0
-    JUNCTION: int = 1
 
     def __init__(self, x: int, y: int) -> None:
         self.x : int = x
         self.y : int = y
         self.path : int = [(x,y)]
-
-    def found_exit_point(self, current_value: int) -> bool:
-        return current_value == Agent.EXIT_POINT
 
     def move(self, east: int, west: int, north: int, south: int) -> None:
         """
@@ -70,7 +63,6 @@ class Agent:
         else : # retrace and correct path
             self.x = self.path[len(self.path)-1][0]
             self.y = self.path[len(self.path)-1][1]
-
             # remove coordinates from path
             self._pop_from_path()
 
@@ -85,4 +77,4 @@ class Agent:
             self.y -= 1
 
 
-  
+

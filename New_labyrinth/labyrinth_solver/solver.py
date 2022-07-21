@@ -55,7 +55,7 @@ class Solver:
         for i in range(0, len(self.entry_points)):
             # for i in range(0,1):
             labyrinth = Labyrinth(copy.deepcopy(self.labyrinth_copy), self.entry_points[i], self.exit_points[i])
-            labyrinth.set_cell_values(self.entry_points[i][0], self.entry_points[i][1], Agent.STARTING_POINT)
+            labyrinth.set_cell_values(self.entry_points[i][0], self.entry_points[i][1], Labyrinth.STARTING_POINT)
             print(labyrinth.labyrinth)
             self._find_path(labyrinth)
 
@@ -70,22 +70,12 @@ class Solver:
     def _find_path(self, labyrinth: Labyrinth) -> object:
 
         agent = Agent(labyrinth.entry_points[0], labyrinth.entry_points[1])
-        print("+++++ start +++++++")
-        print(labyrinth.labyrinth)
-
-        for i in range(1, 66):
+       
+        while not labyrinth.found_exit_point(agent.x, agent.y):
             # Drop stone in current location in the labyrinth
-            labyrinth.set_cell_values(agent.x, agent.y, agent.get_stone)
+            labyrinth.set_cell_values(agent.x, agent.y, Agent.STONE)
             # use a compass to find information on current location surroundings
             values = labyrinth.get_compass_values(agent.x, agent.y)
-            print("+++++ values +++++++")
-            print(values)
             # move
-            print("+++++ move +++++++")
-            print(agent.x)
-            print(agent.y)
             agent.move(values[Solver.EAST], values[Solver.WEST], values[Solver.NORTH], values[Solver.SOUTH])
-            print(labyrinth.labyrinth)
-            print(agent.x)
-            print(agent.y)
-            print(agent.found_exit_point(labyrinth.labyrinth[agent.y, agent.x]))
+
