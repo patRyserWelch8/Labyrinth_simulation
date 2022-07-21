@@ -46,7 +46,7 @@ def main() -> dict:
 
 if __name__ == "__main__":
     print("tester ")
-    print(test("labyrinth-0.png"))
+    #print(test("labyrinth-0.png"))
     print(test("labyrinth-0-E1.png"))
 
 

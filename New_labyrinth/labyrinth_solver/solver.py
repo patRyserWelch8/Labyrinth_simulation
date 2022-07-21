@@ -43,17 +43,23 @@ class Solver:
         A path is an ordered list of adjacent traversable points.
         """
         solution_exists = True
+        # create labyrinth for a entry point
+        saved_labyrinth = copy.deepcopy(self.labyrinth_copy)
+
         for i in range(0, len(self.entry_points)):
             # create labyrinth for a entry point
-            labyrinth = Labyrinth(copy.deepcopy(self.labyrinth_copy), self.entry_points[i], self.exit_points[i])
+            labyrinth = Labyrinth(saved_labyrinth, self.entry_points[i], self.exit_points[i])
             # add entry point
             labyrinth.set_cell_values(self.entry_points[i][0], self.entry_points[i][1], Labyrinth.STARTING_POINT)
+            print(" --- prior: ---")
             print(labyrinth.labyrinth)
             # solve and retried a solution
             solution = self._find_path(labyrinth)
             self.solution[i] = solution[1]
             solution_exists = solution_exists & solution[0]
-            print("----")
+            saved_labyrinth = copy.deepcopy(labyrinth.labyrinth)
+            #
+            print("---after ----")
             self.entry_points[i]
             print(labyrinth.labyrinth)
             print("----")
@@ -67,7 +73,6 @@ class Solver:
         return labyrinth_copy
 
     def _find_path(self, labyrinth: Labyrinth) -> [bool,[]]:
-
         agent = Agent(labyrinth.entry_points[0], labyrinth.entry_points[1], labyrinth.get_boundaries)
 
         while not labyrinth.found_exit_point(agent.x, agent.y):

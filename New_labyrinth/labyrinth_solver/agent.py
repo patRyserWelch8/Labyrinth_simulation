@@ -11,8 +11,8 @@ class Agent:
     def __init__(self, x: int, y: int, boundaries: [int, int, int, int]) -> None:
         self.x : int = x
         self.y : int = y
-        self.path : int = [(self.x,self.y)]
-        self.entry : int = [(self.x,self.y)]
+        self.path : int = [(x,y)]
+        self.entry : (int, int) = [(x,y)]
         self.boundaries : [int, int, int, int] = boundaries
 
     def move(self, east: int, west: int, north: int, south: int) -> None:
@@ -63,15 +63,20 @@ class Agent:
         if Agent.TRANSVERSALE in environment: # can move forward to a possible unvisited transversal
             self._move_forward(east, west, north, south)
             self._add_to_path()
-        else :
-            if len(self.path) < 1:
-               self.path = copy.deepcopy(self.entry)
-            # retrace and correct path
-            self.x = self.path[len(self.path)-1][0]
-            self.y = self.path[len(self.path)-1][1]
-            # remove coordinates from path
-            self._pop_from_path()
+        else:
+            if len(self.path) > 1:
+                self.x = self.path[len(self.path)-1][0]
+                self.y = self.path[len(self.path)-1][1]
+                # remove coordinates from path
+                self._pop_from_path()
+            
 
+
+    def _reset(self):
+        print("_____", self.entry,"_____")
+        self.path = self.entry
+        self.x = self.entry[0][0]
+        self.y = self.entry[0][1]
 
     def _move_forward(self, east: int, west : int, north:int , south : int) -> None:
         if east >= Agent.TRANSVERSALE: # move east
