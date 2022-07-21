@@ -59,3 +59,4 @@ class Labyrinth:
 
     def found_exit_point(self, x: int, y: int) -> bool:
         return self.labyrinth[y][x] == Labyrinth.EXIT_POINT
+

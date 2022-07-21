@@ -12,7 +12,8 @@ class Solver:
 
     def __init__(self, labyrinth) -> None:
         self.labyrinth = labyrinth
-        self.labyrinth_copy = labyrinth
+        self.labyrinth_copy = []
+        self.solution = [[], []]
 
         # You may edit the following variables to help you solve the maze.
 
@@ -22,13 +23,7 @@ class Solver:
         # Exit points are values where the labyrinth is 3
         self.exit_points = [(x, y) for y, x in np.array(np.where(labyrinth == 3)).transpose()]
 
-        # Walls are values where the labyrinth is 0
-        #self.walls = [(x, y) for y, x in np.array(np.where(labyrinth == 0)).transpose()]
 
-        # Traversable points are values where the labyrinth is 1
-        #self.traversable = [(x, y) for y, x in np.array(np.where(labyrinth == 1)).transpose()]
-
-        self.solution = [[], []]
 
     def parse(self) -> None:
         """
@@ -46,22 +41,18 @@ class Solver:
         and no path intersects with a wall.
         A path is an ordered list of adjacent traversable points.
         """
-        solution_exists = []
+        solution_exists = True
         for i in range(0, len(self.entry_points)):
-            solution_exists.append(False)
             # create labyrinth for a entry point
             labyrinth = Labyrinth(copy.deepcopy(self.labyrinth_copy), self.entry_points[i], self.exit_points[i])
             # add entry point
             labyrinth.set_cell_values(self.entry_points[i][0], self.entry_points[i][1], Labyrinth.STARTING_POINT)
             # solve and retried a solution
             solution = self._find_path(labyrinth)
-            solution_exists[i] = solution[0]
             self.solution[i] = solution[1]
+            solution_exists = solution_exists & solution[0]
 
-
-
-
-        return False
+        return solution_exists
 
     def _clean(self):
         labyrinth_copy = copy.deepcopy(self.labyrinth)
@@ -82,3 +73,5 @@ class Solver:
             agent.move(values[Solver.EAST], values[Solver.WEST], values[Solver.NORTH], values[Solver.SOUTH])
 
         return [labyrinth.found_exit_point(agent.x, agent.y), agent.path]
+
+    
