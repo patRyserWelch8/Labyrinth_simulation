@@ -2,7 +2,8 @@ from labyrinth_solver.agent import Agent
 
 
 class Labyrinth:
-    labyrinth: object
+    EXIT_POINT: int = 3
+    STARTING_POINT: int = 2
 
     def __init__(self, aLabyrinth: object, someEntryPoints: object, someExitPoints: object) -> None:
         self.labyrinth = aLabyrinth
@@ -14,7 +15,6 @@ class Labyrinth:
     @property
     def get_boundaries(self):
         return self._boundaries
-
 
     def get_compass_values(self, x: int, y: int) -> [int, int, int, int]:
         """
@@ -56,3 +56,7 @@ class Labyrinth:
         if self._boundaries[0] <= x < self._boundaries[1]:
             if self._boundaries[2] <= y < self._boundaries[3]:
                 self.labyrinth[y][x] = value
+
+    def found_exit_point(self, x: int, y: int) -> bool:
+        return self.labyrinth[y][x] == Labyrinth.EXIT_POINT
+
