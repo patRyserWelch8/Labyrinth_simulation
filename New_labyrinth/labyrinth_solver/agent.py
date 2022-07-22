@@ -81,10 +81,10 @@ class Agent:
     def _move_forward(self, east: int, west : int, north:int , south : int) -> None:
         if east >= Agent.TRANSVERSALE: # move east
             self.x += 1
-        elif south >= Agent.TRANSVERSALE:
-            self.y += 1
         elif west >= Agent.TRANSVERSALE: # move west
             self.x -= 1
+        elif south >= Agent.TRANSVERSALE:
+            self.y += 1
         elif north >= Agent.TRANSVERSALE:
             self.y -= 1
         self._adjust()

@@ -93,25 +93,16 @@ class Solver:
                          self.lab_min.get_boundaries)
         both_out = self.lab_theseus.found_exit_point(theseus.x, theseus.y) and \
                    self.lab_min.found_exit_point(minautor.x, minautor.y)
-
+        fighting = False
         while not both_out:
-            if not self.lab_theseus.found_exit_point(theseus.x, theseus.y):
-                self.lab_theseus.set_cell_values(theseus.x, theseus.y, Agent.STONE)
-                values = self.lab_theseus.get_compass_values(theseus.x, theseus.y)
-                theseus.move(values[Solver.EAST],
-                             values[Solver.WEST],
-                             values[Solver.NORTH],
-                             values[Solver.SOUTH])
-                #print(self.lab_theseus.labyrinth)
+            self._move_individual(self.lab_theseus,theseus)
+            self._move_individual(self.lab_min,minautor)
 
-            if not self.lab_min.found_exit_point(minautor.x, minautor.y):
-                self.lab_min.set_cell_values(minautor.x, minautor.y, Agent.STONE)
-                values = self.lab_min.get_compass_values(minautor.x, minautor.y)
-                minautor.move(values[Solver.EAST],
-                              values[Solver.WEST],
-                              values[Solver.NORTH],
-                              values[Solver.SOUTH])
-                #print(self.lab_min.labyrinth)
+            if minautor.x == theseus.x and minautor.y == theseus.y:
+                fighting = True
+                print(fighting)
+                print(minautor.x, " ", minautor.y)
+                print(theseus.x, " ", theseus.y)
 
             both_out = self.lab_theseus.found_exit_point(theseus.x, theseus.y) and \
                        self.lab_min.found_exit_point(minautor.x, minautor.y)
@@ -119,6 +110,13 @@ class Solver:
 
         self.solution[0] = theseus.path
         self.solution[1] = minautor.path
-        return both_out
+        return both_out and not fighting
 
-
+    def _move_individual(self, labyrinth: Labyrinth, agent: Agent):
+        if not labyrinth.found_exit_point(agent.x, agent.y):
+            labyrinth.set_cell_values(agent.x, agent.y, Agent.STONE)
+            values = labyrinth.get_compass_values(agent.x, agent.y)
+            agent.move(values[Solver.EAST],
+                       values[Solver.WEST],
+                       values[Solver.NORTH],
+                       values[Solver.SOUTH])
