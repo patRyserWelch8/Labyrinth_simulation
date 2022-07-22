@@ -52,30 +52,13 @@ class Solver:
         solution_exists = True
 
         # create labyrinth for a entry point
-
+        print(self.exit_points)
         if not self.lab_theseus == None and not self.lab_min == None:
             solution_exists = self._find_path()
+            print("minautor:")
             print(self.lab_min.labyrinth)
+            print("theseus:")
             print(self.lab_theseus.labyrinth)
-
-
-        #for i in range(0, len(self.entry_points)):
-            # create labyrinth for a entry point
-            #labyrinth = Labyrinth(copy.deepcopy(self.labyrinth_copy), self.entry_points[i], self.exit_points[i])
-            # add entry point
-            #labyrinth.
-
-           # print(" --- prior: ---")
-           # print(labyrinth.labyrinth)
-            # solve and retried a solution
-           # solution = self._find_path(labyrinth)
-           # self.solution[i] = solution[1]
-           # solution_exists = solution_exists & solution[0]
-           # print("---after ----")
-           # self.entry_points[i]
-           # print(labyrinth.labyrinth)
-           # print("----")
-
         return solution_exists
 
     def _clean(self):
@@ -97,16 +80,12 @@ class Solver:
         while not both_out:
             self._move_individual(self.lab_theseus,theseus)
             self._move_individual(self.lab_min,minautor)
-
-            if minautor.x == theseus.x and minautor.y == theseus.y:
-                fighting = True
-                print(fighting)
-                print(minautor.x, " ", minautor.y)
-                print(theseus.x, " ", theseus.y)
-
             both_out = self.lab_theseus.found_exit_point(theseus.x, theseus.y) and \
                        self.lab_min.found_exit_point(minautor.x, minautor.y)
-            print(both_out)
+
+            if minautor.x == theseus.x and  minautor.y == theseus.y and not both_out:
+                fighting = True
+                print(fighting)
 
         self.solution[0] = theseus.path
         self.solution[1] = minautor.path
