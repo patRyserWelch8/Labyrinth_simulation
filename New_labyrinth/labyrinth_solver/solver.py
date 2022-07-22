@@ -34,10 +34,10 @@ class Solver:
         """
 
         if len(self.entry_points) >= 2:
-            self.lab_theseus = Labyrinth(self._clean(), self.entry_points[0], self.exit_points[0])
+            self.lab_theseus = Labyrinth(copy.deepcopy(self._clean()), self.entry_points[0], self.exit_points[0])
             self.lab_theseus.set_cell_values(self.entry_points[0][0], self.entry_points[0][1], Labyrinth.STARTING_POINT)
 
-            self.lab_min = Labyrinth(self._clean(), self.entry_points[1], self.exit_points[1])
+            self.lab_min = Labyrinth(copy.deepcopy(self._clean()), self.entry_points[1], self.exit_points[1])
             self.lab_min.set_cell_values(self.entry_points[1][0], self.entry_points[1][1], Labyrinth.STARTING_POINT)
 
     @property
@@ -50,7 +50,7 @@ class Solver:
         A path is an ordered list of adjacent traversable points.
         """
         solution_exists = True
-
+        print(self.labyrinth)
         # create labyrinth for a entry point
         print(self.exit_points)
         if not self.lab_theseus == None and not self.lab_min == None:
