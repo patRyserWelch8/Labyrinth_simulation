@@ -60,6 +60,7 @@ class Agent:
 
     def _correct_path(self, east: int, west: int, north: int, south: int) -> None:
         environment =  [east, west, north, south]
+
         if Agent.TRANSVERSALE in environment: # can move forward to a possible unvisited transversal
             self._move_forward(east, west, north, south)
             self._add_to_path()

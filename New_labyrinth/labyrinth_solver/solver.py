@@ -77,7 +77,7 @@ class Solver:
         both_out = self.lab_theseus.found_exit_point(theseus.x, theseus.y) and \
                    self.lab_min.found_exit_point(minautor.x, minautor.y)
         fighting = False
-        while not both_out:
+        while not both_out and not fighting:
             self._move_individual(self.lab_theseus,theseus)
             self._move_individual(self.lab_min,minautor)
             both_out = self.lab_theseus.found_exit_point(theseus.x, theseus.y) and \
@@ -86,6 +86,8 @@ class Solver:
             if minautor.x == theseus.x and  minautor.y == theseus.y and not both_out:
                 fighting = True
                 print(fighting)
+
+
 
         self.solution[0] = theseus.path
         self.solution[1] = minautor.path
