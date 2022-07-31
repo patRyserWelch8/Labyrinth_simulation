@@ -46,16 +46,13 @@ class Labyrinth:
         else:
             north = self.labyrinth[y-1][x]
             south = self.labyrinth[y+1][x]
-
         return [east, west, north, south]
-
-
-            #== y < self._boundaries[3]:
 
     def set_cell_values(self, x: int, y: int, value: int) -> None:
         if self._boundaries[0] <= x < self._boundaries[1]:
             if self._boundaries[2] <= y < self._boundaries[3]:
                 self.labyrinth[y][x] = value
+
 
     def found_exit_point(self, x: int, y: int) -> bool:
         return self.labyrinth[y][x] == Labyrinth.EXIT_POINT

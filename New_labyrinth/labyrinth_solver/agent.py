@@ -2,7 +2,6 @@ import copy
 
 import numpy as np
 
-
 class Agent:
     WALL : int = 0
     TRANSVERSALE : int = 1
@@ -47,10 +46,13 @@ class Agent:
             self.y = self.boundaries[2]
         elif self.y >= self.boundaries[3]:  # x has left boundaries on the right
             self.y = self.boundaries[3]-1
-        if len(self.path) >= 1:
-            self.path[len(self.path)-1] = (self.x, self.y)
-        else:
-            self.path = [(self.x, self.y)]
+
+        self.path.append((self.x, self.y))
+        ## introduced errors in 10.
+        #if len(self.path) >= 1:
+        #    self.path[len(self.path)-1] = (self.x, self.y)
+        #else: # nww path
+        #    self.path = [(self.x, self.y)]
 
     def _pop_from_path(self):
         self.path = self.path[:-1]
@@ -60,17 +62,20 @@ class Agent:
 
     def _correct_path(self, east: int, west: int, north: int, south: int) -> None:
         environment =  [east, west, north, south]
+
         if Agent.TRANSVERSALE in environment: # can move forward to a possible unvisited transversal
             self._move_forward(east, west, north, south)
             self._add_to_path()
         else:
-            if len(self.path) > 1:
+            if len(self.path) >= 1: # change it from > to >= to prevent getting stuck in 9 27,1
                 self.x = self.path[len(self.path)-1][0]
                 self.y = self.path[len(self.path)-1][1]
+
                 # remove coordinates from path
                 self._pop_from_path()
-            
-
+            else: # 10: avoid to gets back to start with an empty path
+               print("-----", self.entry, "-----")
+               self._add_to_path(self.entry[0],self.entry[1])
 
     def _reset(self):
         print("_____", self.entry,"_____")
@@ -80,12 +85,16 @@ class Agent:
 
     def _move_forward(self, east: int, west : int, north:int , south : int) -> None:
         if east >= Agent.TRANSVERSALE: # move east
+            #print("east")
             self.x += 1
         elif south >= Agent.TRANSVERSALE:
+            #print("south")
             self.y += 1
         elif west >= Agent.TRANSVERSALE: # move west
+            #print("west")
             self.x -= 1
         elif north >= Agent.TRANSVERSALE:
+            #print("north")
             self.y -= 1
         self._adjust()
 
