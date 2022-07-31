@@ -47,6 +47,7 @@ def main() -> dict:
 
 
 if __name__ == "__main__":
+
     main()
 #print("tester ")
 #    print(test("labyrinth-0-E1.png"))
@@ -54,3 +55,4 @@ if __name__ == "__main__":
 #    for x in  range(63):
 #        print(x)
 #        print(test("labyrinth-1.png"))
+

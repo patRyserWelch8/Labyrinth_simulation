@@ -79,18 +79,14 @@ class Solver:
 
         fighting = False
         while not both_out and not fighting:
-            #print("theseus: ", theseus.path)
-            #print(self.lab_theseus.get_compass_values(theseus.x, theseus.y))
             self._move_individual(self.lab_theseus,theseus)
-            #print("theseus: ", theseus.path)
-            #print("_______")
             self._move_individual(self.lab_min,minautor)
             both_out = self.lab_theseus.found_exit_point(theseus.x, theseus.y) and \
                        self.lab_min.found_exit_point(minautor.x, minautor.y)
 
             if minautor.x == theseus.x and  minautor.y == theseus.y and not both_out:
                 fighting = True
-                print(fighting)
+                
 
 
 
@@ -106,4 +102,7 @@ class Solver:
                        values[Solver.WEST],
                        values[Solver.NORTH],
                        values[Solver.SOUTH])
+
+              
+
 
