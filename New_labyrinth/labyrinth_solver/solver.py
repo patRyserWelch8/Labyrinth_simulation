@@ -76,6 +76,7 @@ class Solver:
                          self.lab_min.get_boundaries)
         both_out = self.lab_theseus.found_exit_point(theseus.x, theseus.y) and \
                    self.lab_min.found_exit_point(minautor.x, minautor.y)
+
         fighting = False
         while not both_out and not fighting:
             self._move_individual(self.lab_theseus,theseus)
@@ -85,7 +86,7 @@ class Solver:
 
             if minautor.x == theseus.x and  minautor.y == theseus.y and not both_out:
                 fighting = True
-                print(fighting)
+                
 
 
 
@@ -101,3 +102,7 @@ class Solver:
                        values[Solver.WEST],
                        values[Solver.NORTH],
                        values[Solver.SOUTH])
+
+              
+
+

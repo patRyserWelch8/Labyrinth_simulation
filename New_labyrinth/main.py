@@ -18,9 +18,11 @@ def test(filename: str) -> dict:
 def main() -> dict:
     results = {}
     print("main")
-    for filename in get_png_files("/Labyrinth/test_inputs"):
+    list_files = get_png_files("test_inputs")
+    print(list_files)# Labyrinth/test_inputs
+    for filename in list_files:  # indefinite loop
         print(filename)
-        maze = load_png(f" test_inputs/{filename}")
+        maze = load_png(f"./test_inputs/{filename}")
 
         start_parse = perf_counter()
         solver = Solver(maze)
@@ -45,34 +47,12 @@ def main() -> dict:
 
 
 if __name__ == "__main__":
-    print("tester ")
-    print(test("labyrinth-0.png"))
-    print(test("labyrinth-0-E1.png"))
-    print("-----")
-    if False:
 
-        print(1)
-        print(test("labyrinth-1.png"))
-        print(2)
-        print(test("labyrinth-2.png"))
-        print(3)
-        print(test("labyrinth-3.png"))
-        print(4)
-        print(test("labyrinth-4.png"))
-        print(5)
-        print(test("labyrinth-5.png"))
-        print(6)
-        print(test("labyrinth-6.png"))
-        print(7)
-        print(test("labyrinth-7.png"))
-        print(8)
-        print(test("labyrinth-8.png"))
-        print(8)
-        print(test("labyrinth-8.png"))
-        print(9)
-        print(test("labyrinth-9.png"))
-
-
-
-
+    main()
+#print("tester ")
+#    print(test("labyrinth-0-E1.png"))
+#    print("-----")
+#    for x in  range(63):
+#        print(x)
+#        print(test("labyrinth-1.png"))
 
